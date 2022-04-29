@@ -21,10 +21,10 @@ function Task(description) {
 // Створимо ф-цію для створення завдання
 const createTemplate = (task, index) => {
     return `
-        <div class="todo-item">
+        <div class="todo-item ${task.completed ? 'checked' : ''}">
             <div class="description">${task.description}</div>
             <div class="buttons">
-                <input class="btn-complete" type="checkbox">
+                <input class="btn-complete" type="checkbox" ${task.completed ? 'checked' : ''}>
                 <button class="btn-delete">Delete</button>
             </div>
         </div>
@@ -60,4 +60,6 @@ addTaskBtn.addEventListener('click', () => {
     // викликаємо після додавання (оновлення) завдання
     updateLocal();
     fillHtmlList();
+    // Очистити input після додавання завдання
+    deskTaskInput.value = '';
 })
