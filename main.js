@@ -10,6 +10,9 @@ let tasks = [];
 // Перевіримо, чи є в LocalStorage в масиві tasks якісь об'єкти; якщо в LocalStorage нічого немає, то створимо пустий масив, якщо щось є, то отримаємо значення
 !localStorage.tasks ? tasks = [] : tasks = JSON.parse(localStorage.getItem('tasks'));
 
+// створимо масив з елементів з класом todo-item
+let todoItemElems = [];
+
 // Створюю конструктор, для формування списку завдань, які будуть зберігатися в F12-Application-LocalStorage-file(http)
 function Task(description) {
     // description будемо передавати при створенні завдання (з input)
@@ -41,6 +44,8 @@ const fillHtmlList = () => {
         tasks.forEach((item, index) => {
             todosWrapper.innerHTML += createTemplate(item, index);
         });
+        // вибрати всі елементи з класом todo-item
+        todoItemElems = document.querySelectorAll('.todo-item');
     }
 }
 
@@ -57,6 +62,18 @@ const updateLocal = () => {
 const completeTask = (index) => {
     // змінюємо значення completed в checkbox на протилежне
     tasks[index].completed = !tasks[index].completed;
+    // якщо tasks[index].completed = true
+    if (tasks[index].completed) {
+        // для конкретного індекса додати клас checked
+        todoItemElems[index].classList.add('checked');
+    } else {
+        // якщо tasks[index].completed = false для конкретного індекса видалити клас checked
+        todoItemElems[index].classList.remove('checked');
+    }
+    // обновити Local Storage
+    updateLocal();
+    // заповнити список завдань 
+    fillHtmlList();
 }
 
 // При натисненні на кнопку відправимо завдання в кінець масиву
@@ -65,6 +82,7 @@ addTaskBtn.addEventListener('click', () => {
     tasks.push(new Task(deskTaskInput.value));
     // викликаємо після додавання (оновлення) завдання
     updateLocal();
+    // заповнити список завдань 
     fillHtmlList();
     // Очистити input після додавання завдання
     deskTaskInput.value = '';
