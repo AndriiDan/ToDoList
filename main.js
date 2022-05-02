@@ -90,10 +90,15 @@ addTaskBtn.addEventListener('click', () => {
 
 // ф-ція для видалення конкретного завдання
 const deleteTask = (index) => {
-    // видалити елемент з масиву
-    tasks.splice(index, 1);
-    // обновити Local Storage
-    updateLocal();
-    // заповнити список завдань 
-    fillHtmlList();
+    // для конкретного індекса додати клас delition - додається анімація
+    todoItemElems[index].classList.add('delition');
+    // затримка в часі на виконання коду
+    setTimeout(() => {
+        // видалити елемент з масиву
+        tasks.splice(index, 1);
+        // обновити Local Storage
+        updateLocal();
+        // заповнити список завдань 
+        fillHtmlList();
+    }, 500)
 }
