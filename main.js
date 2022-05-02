@@ -24,7 +24,7 @@ const createTemplate = (task, index) => {
         <div class="todo-item ${task.completed ? 'checked' : ''}">
             <div class="description">${task.description}</div>
             <div class="buttons">
-                <input class="btn-complete" type="checkbox" ${task.completed ? 'checked' : ''}>
+                <input onclick="completeTask(${index})" class="btn-complete" type="checkbox" ${task.completed ? 'checked' : ''}>
                 <button class="btn-delete">Delete</button>
             </div>
         </div>
@@ -40,7 +40,7 @@ const fillHtmlList = () => {
         // переберемо всі елемента в масиві. Параметри item (кожний елемент масива tasks), index для кожного елемента.
         tasks.forEach((item, index) => {
             todosWrapper.innerHTML += createTemplate(item, index);
-        })
+        });
     }
 }
 
@@ -51,6 +51,12 @@ fillHtmlList();
 const updateLocal = () => {
     // localStorage - глобальна назва (як document); setItem(key: string, value: string) - встановити значення; JSON.stringify(tasks) - перетворює масив tasks в JSON-формат (так краще для Local Storage) 
     localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Створимо ф-цію для "checkbox" для зміни значення completed
+const completeTask = (index) => {
+    // змінюємо значення completed в checkbox на протилежне
+    tasks[index].completed = !tasks[index].completed;
 }
 
 // При натисненні на кнопку відправимо завдання в кінець масиву
