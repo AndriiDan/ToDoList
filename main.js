@@ -28,7 +28,7 @@ const createTemplate = (task, index) => {
             <div class="description">${task.description}</div>
             <div class="buttons">
                 <input onclick="completeTask(${index})" class="btn-complete" type="checkbox" ${task.completed ? 'checked' : ''}>
-                <button class="btn-delete">Delete</button>
+                <button onclick="deleteTask(${index})" class="btn-delete">Delete</button>
             </div>
         </div>
     `
@@ -87,3 +87,13 @@ addTaskBtn.addEventListener('click', () => {
     // Очистити input після додавання завдання
     deskTaskInput.value = '';
 })
+
+// ф-ція для видалення конкретного завдання
+const deleteTask = (index) => {
+    // видалити елемент з масиву
+    tasks.splice(index, 1);
+    // обновити Local Storage
+    updateLocal();
+    // заповнити список завдань 
+    fillHtmlList();
+}
