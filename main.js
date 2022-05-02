@@ -34,12 +34,24 @@ const createTemplate = (task, index) => {
     `
 }
 
+// ф-ція для фільтрування завдань (зверху активні, знизу виконані)
+const filterTasks = () => {
+    // активні завдання
+    const activeTasks = tasks.length && tasks.filter(item => item.completed == false);
+    // завершені завдання
+    const completedTasks = tasks.length && tasks.filter(item => item.completed == true);
+    // навий масив tasks
+    tasks = [...activeTasks, ...completedTasks];
+}
+
 // Створимо ф-цію для заповнення списку в HTML
 const fillHtmlList = () => {
     // зачистимо дані, які початково були в div todosWrapper
     todosWrapper.innerHTML = "";
     // перевіримо, чи є щось в масиві tasks
     if (tasks.length > 0) {
+        // відфільтрований масив з завданнями (зверху активні, знизу виконані)
+        filterTasks();
         // переберемо всі елемента в масиві. Параметри item (кожний елемент масива tasks), index для кожного елемента.
         tasks.forEach((item, index) => {
             todosWrapper.innerHTML += createTemplate(item, index);
